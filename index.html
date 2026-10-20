@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bizim Hikayemiz</title>
+    <style>
+        /* Temel Sıfırlama ve Tasarım */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #0d0d0d;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            overflow-x: hidden;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Arka Plan Efekti için Canvas */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        header {
+            margin-top: 20px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Fotoğraf Alanı */
+        .photo-container {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #ffffff;
+            box-shadow: 0px 4px 20px rgba(255, 255, 255, 0.2);
+            margin: 10px auto;
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* İsimler ve Siyah Kalpler */
+        .names-section {
+            margin: 10px 0;
+        }
+
+        .black-hearts {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .names-section h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        /* Sayaç Alanı */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            width: 100%;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .countdown-item span:first-child {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .countdown-item span:last-child {
+            font-size: 0.75rem;
+            color: #ccc;
+            text-transform: uppercase;
+        }
+
+        /* Özel Mesaj Alanı */
+        .message-box {
+            font-size: 0.95rem;
+            color: #ddd;
+            line-height: 1.5;
+            padding: 0 10px;
+        }
+
+        footer {
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Birlikte Geçen Zamanımız</h1>
+        <p>Her anımız bir ömre bedel...</p>
+    </header>
+
+    <main>
+        <!-- FOTOĞRAF DEĞİŞTİRME ALANI: 
+             Aşağıdaki 'src="cift6.jpg"' kısmını kendi fotoğraf dosyanın adıyla değiştirebilirsin.
+             'alt="cift6"' kısmına isimlerinizi yazabilirsin. -->
+        <div class="photo-container">
+            <img src="cift6.jpg" alt="İsimleriniz">
+        </div>
+
+        <div class="names-section">
+            <!-- Siyah Kalpler -->
+            <div class="black-hearts">
+                <span>🖤</span>
+                <span>🖤</span>
+            </div>
+            <!-- KİŞİSELLEŞTİRME: Buraya isimlerinizi yazın -->
+            <h2>Tolga & Genco</h2>
+        </div>
+
+        <!-- Sayaç (JavaScript ile otomatik hesaplanır) -->
+        <div class="countdown" id="countdown">
+            <div class="countdown-item">
+                <span id="years">00</span>
+                <span>Yıl</span>
+            </div>
+            <div class="countdown-item">
+                <span id="months">00</span>
+                <span>Ay</span>
+            </div>
+            <div class="countdown-item">
+                <span id="days">00</span>
+                <span>Gün</span>
+            </div>
+            <div class="countdown-item">
+                <span id="hours">00</span>
+                <span>Saat</span>
+            </div>
+            <div class="countdown-item">
+                <span id="seconds">00</span>
+                <span>Saniye</span>
+            </div>
+        </div>
+
+        <div class="message-box">
+            <p>İyi ki varsın, seni çok seviyorum...</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>Sonsuza Dek...</p>
+    </footer>
+
+    <script>
+        // KİŞİSELLEŞTİRME: Başlangıç tarihinizi buraya (Yıl, Ay, Gün, Saat, Dakika, Saniye) olarak girin.
+        const startDate = new Date("2023-01-01T00:00:00");
+
+        function updateCountdown() {
+            const now = new Date();
+            let years = now.getFullYear() - startDate.getFullYear();
+            let months = now.getMonth() - startDate.getMonth();
+            let days = now.getDate() - startDate.getDate();
+            let hours = now.getHours() - startDate.getHours();
+            let minutes = now.getMinutes() - startDate.getMinutes();
+            let seconds = now.getSeconds() - startDate.getSeconds();
+
+            if (seconds < 0) { seconds += 60; minutes--; }
+            if (minutes < 0) { minutes += 60; hours--; }
+            if (hours < 0) { hours += 24; days--; }
+            if (days < 0) {
+                months--;
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+            if (months < 0) { months += 12; years--; }
+
+            document.getElementById("years").textContent = String(years).padStart(2, '0');
+            document.getElementById("months").textContent = String(months).padStart(2, '0');
+            document.getElementById("days").textContent = String(days).padStart(2, '0');
+            document.getElementById("hours").textContent = String(hours).padStart(2, '0');
+            document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
